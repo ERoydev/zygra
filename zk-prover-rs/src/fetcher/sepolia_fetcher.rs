@@ -1,10 +1,9 @@
 
 use alloy::{
-    providers::{EthGetBlock, Provider, ProviderBuilder},
-    rpc::types::Block, 
-    transports::{http::reqwest::Url, RpcError}
+    primitives::{Address}, providers::{EthGetBlock, Provider, ProviderBuilder}, rpc::types::{Block, EIP1186AccountProofResponse}, transports::{http::reqwest::Url, RpcError}
 };
 use alloy_eips::BlockNumberOrTag;
+use async_trait::async_trait;
 use super::{fetcher::Fetcher, types::FutureOutputType};
 use super::types::ProviderType;
 use std::{error::Error, pin::Pin};
@@ -25,13 +24,42 @@ impl SepoliaFetcher {
             provider
         }
     }
+
+    async fn fetch_account_data(&self, address: Address) -> EIP1186AccountProofResponse {
+        self.provider
+            .raw_request(
+                "eth_getProof".into(),
+                (
+                    address,
+                    Vec::<String>::new(),
+                    "latest",
+                ),
+            )
+            .await
+            .expect("RPC call failed")
+    }
 }
- 
+
+#[async_trait]
 impl Fetcher for SepoliaFetcher {
     fn fetch_block(&self, nft_block_num: BlockNumberOrTag) -> EthGetBlock<Block> {
         let block_num = self.provider
             .get_block_by_number(nft_block_num);
 
         block_num
+    }
+
+    async fn fetch_account_data(&self, address: Address) -> EIP1186AccountProofResponse {
+        self.provider
+            .raw_request(
+                "eth_getProof".into(),
+                (
+                    address,
+                    Vec::<String>::new(),
+                    "latest",
+                ),
+            )
+            .await
+            .expect("RPC call failed")
     }
 }
