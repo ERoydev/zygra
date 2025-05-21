@@ -1,0 +1,1 @@
+# Shared types (e.g., BlockHeader struct)

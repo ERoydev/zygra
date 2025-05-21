@@ -1,0 +1,27 @@
+
+# Rust build output
+/target/
+
+# Executables and binaries
+*.exe
+*.dll
+*.so
+*.dylib
+
+# IDE and editor files
+**/*.swp
+**/*.swo
+.idea/
+.vscode/
+*.code-workspace
+
+# Dependency/package manager files
+Cargo.lock
+# (Keep Cargo.lock for binaries, ignore for libraries if you prefer)
+
+# Environment files
+.env
+
+# Misc
+*.log
+.DS_Store
