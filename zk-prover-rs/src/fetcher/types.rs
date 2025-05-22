@@ -5,5 +5,3 @@ use alloy::providers::{fillers::{BlobGasFiller, ChainIdFiller, FillProvider, Gas
 
 
 pub type ProviderType = FillProvider<JoinFill<alloy::providers::Identity, JoinFill<GasFiller, JoinFill<BlobGasFiller, JoinFill<NonceFiller, ChainIdFiller>>>>, RootProvider>;
-
-pub type FutureOutputType = Pin<Box<dyn Future<Output = Result<(),  Box<dyn Error>>> + Send>>;

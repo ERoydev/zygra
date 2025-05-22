@@ -4,10 +4,8 @@ use alloy::{
 };
 use alloy_eips::BlockNumberOrTag;
 use async_trait::async_trait;
-use super::{fetcher::Fetcher, types::FutureOutputType};
+use super::{fetcher::Fetcher};
 use super::types::ProviderType;
-use std::{error::Error, pin::Pin};
-
 
 #[derive(Debug, Clone)]
 pub struct SepoliaFetcher {
@@ -23,20 +21,6 @@ impl SepoliaFetcher {
             rpc_url, 
             provider
         }
-    }
-
-    async fn fetch_account_data(&self, address: Address) -> EIP1186AccountProofResponse {
-        self.provider
-            .raw_request(
-                "eth_getProof".into(),
-                (
-                    address,
-                    Vec::<String>::new(),
-                    "latest",
-                ),
-            )
-            .await
-            .expect("RPC call failed")
     }
 }
 
